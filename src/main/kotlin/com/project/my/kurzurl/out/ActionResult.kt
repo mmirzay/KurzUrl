@@ -1,7 +1,6 @@
 package com.project.my.kurzurl.out
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import lombok.Builder
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 class ActionResult<T> {
