@@ -1,22 +1,39 @@
 package com.project.my.kurzurl.entity
 
-import lombok.*
 import javax.persistence.*
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
 class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Long? = null
+    val id: Long? = null
 
     @Column(nullable = false)
-    private val longUrl: String? = null
+    val longUrl: String?
 
     @Column(nullable = false)
-    private val shortUrl: String? = null
+    val shortUrl: String?
+
+    private constructor(longUrl: String?, shortUrl: String?) {
+        this.longUrl = longUrl
+        this.shortUrl = shortUrl
+    }
+
+    private constructor(builder: Builder) : this(builder.longUrl, builder.shortUrl)
+
+    class Builder {
+        var longUrl: String? = null
+            private set
+
+        var shortUrl: String? = null
+            private set
+
+
+        fun longUrl(longUrl: String) = apply { this.longUrl = longUrl }
+
+        fun shortUrl(shortUrl: String) = apply { this.shortUrl = shortUrl }
+
+
+        fun build() = Url(this)
+    }
 }
