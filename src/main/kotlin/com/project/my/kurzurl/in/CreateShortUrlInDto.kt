@@ -1,13 +1,14 @@
 package com.project.my.kurzurl.`in`
 
-import lombok.NoArgsConstructor
-import lombok.AllArgsConstructor
-import lombok.Builder
-import lombok.Data
+import com.project.my.kurzurl.entity.Url
+import javax.validation.constraints.NotEmpty
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class CreateShortUrlInDto {
-    private val url: String? = null
+class CreateShortUrlInDto(@field:NotEmpty val url: String) {
+
+    fun toUrl(shortUrl: String): Url {
+        return Url.Builder()
+            .longUrl(url)
+            .shortUrl(shortUrl)
+            .build()
+    }
 }
