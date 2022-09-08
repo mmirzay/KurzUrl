@@ -14,7 +14,7 @@ import kotlin.String
 class KortUrlController(val urlService: ShortUrlService) {
 
     @PostMapping("/create")
-    fun createShortUrl(@RequestBody @Valid dto: CreateShortUrlInDto?): ActionResult<String> {
+    fun createShortUrl(@RequestBody @Valid dto: CreateShortUrlInDto): ActionResult<String> {
         return ActionResult.Builder<String>()
             .success(Boolean.TRUE)
             .data(urlService.createShortUrl(dto))
