@@ -1,5 +1,7 @@
 package com.project.my.kurzurl.entity
 
+import com.project.my.kurzurl.configuration.Constants.LONG_URL_MAX_LENGTH
+import com.project.my.kurzurl.configuration.Constants.SHORT_URL_MAX_LENGTH
 import javax.persistence.*
 
 @Entity
@@ -9,10 +11,10 @@ class Url {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
-    @Column(nullable = false, length = 2048)
+    @Column(nullable = false, length = LONG_URL_MAX_LENGTH)
     val longUrl: String?
 
-    @Column(nullable = false, length = 8)
+    @Column(nullable = false, length = SHORT_URL_MAX_LENGTH)
     val shortUrl: String?
 
     private constructor(longUrl: String?, shortUrl: String?) {

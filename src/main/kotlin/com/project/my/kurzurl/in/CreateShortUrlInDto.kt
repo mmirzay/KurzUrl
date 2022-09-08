@@ -1,14 +1,26 @@
 package com.project.my.kurzurl.`in`
 
+import com.project.my.kurzurl.configuration.Constants
 import com.project.my.kurzurl.entity.Url
-import javax.validation.constraints.NotEmpty
+import com.project.my.kurzurl.exception.InternalException
+import com.project.my.kurzurl.utility.MessageTranslatorUtil
 
-class CreateShortUrlInDto(@field:NotEmpty val url: String) {
+class CreateShortUrlInDto(val url: String?) {
+    init {
+        validateUrl(url)
+    }
 
     fun toUrl(shortUrl: String): Url {
         return Url.Builder()
-            .longUrl(url)
+            .longUrl(url!!)
             .shortUrl(shortUrl)
             .build()
+    }
+
+    private fun validateUrl(url: String?) {
+        if (url == null)
+            throw InternalException(MessageTranslatorUtil.getText("in.url.create.short.url.not.empty"))
+        if (url.length > Constants.LONG_URL_MAX_LENGTH)
+            throw InternalException(MessageTranslatorUtil.getText("in.url.create.short.url.size.limit"))
     }
 }
