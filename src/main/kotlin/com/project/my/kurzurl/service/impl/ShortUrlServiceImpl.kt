@@ -2,6 +2,7 @@ package com.project.my.kurzurl.service.impl
 
 import com.project.my.kurzurl.`in`.CreateShortUrlInDto
 import com.project.my.kurzurl.entity.Url
+import com.project.my.kurzurl.exception.NotFoundException
 import com.project.my.kurzurl.repository.UrlRepository
 import com.project.my.kurzurl.service.interfaces.ShortUrlService
 import com.project.my.kurzurl.utility.MessageTranslatorUtil
@@ -41,7 +42,7 @@ class ShortUrlServiceImpl(val urlRepository: UrlRepository) : ShortUrlService {
         logger.info("getting URL with short identifier [{}]", shortUrl)
         val url: Url = findUrl(shortUrl)
             .orElseThrow {
-                Exception(
+                NotFoundException(
                     MessageTranslatorUtil.getText(
                         "service.url.get.long.url.not.found"
                     )

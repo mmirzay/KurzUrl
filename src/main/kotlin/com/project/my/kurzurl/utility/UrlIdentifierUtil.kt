@@ -1,12 +1,8 @@
 package com.project.my.kurzurl.utility
 
-import com.project.my.kurzurl.utility.MessageTranslatorUtil.getText
-import com.google.common.hash.HashFunction
 import com.google.common.hash.Hashing
-import com.project.my.kurzurl.utility.UrlIdentifierUtil
-import com.project.my.kurzurl.utility.MessageTranslatorUtil
+import com.project.my.kurzurl.exception.InternalException
 import org.apache.commons.validator.routines.UrlValidator
-import java.lang.Exception
 import java.nio.charset.StandardCharsets
 
 object UrlIdentifierUtil {
@@ -20,6 +16,6 @@ object UrlIdentifierUtil {
     }
 
     private fun validateUrl(url: String) {
-        if (!VALIDATOR.isValid(url)) throw Exception(getText("utility.url.identifier.invalid.url"))
+        if (!VALIDATOR.isValid(url)) throw InternalException(MessageTranslatorUtil.getText("utility.url.identifier.invalid.url"))
     }
 }
