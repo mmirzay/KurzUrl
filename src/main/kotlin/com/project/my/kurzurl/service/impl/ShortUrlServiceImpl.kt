@@ -1,6 +1,7 @@
 package com.project.my.kurzurl.service.impl
 
 import com.project.my.kurzurl.`in`.CreateShortUrlInDto
+import com.project.my.kurzurl.configuration.UrlHazelcastConfiguration
 import com.project.my.kurzurl.entity.Url
 import com.project.my.kurzurl.exception.NotFoundException
 import com.project.my.kurzurl.repository.UrlRepository
@@ -8,11 +9,12 @@ import com.project.my.kurzurl.service.interfaces.ShortUrlService
 import com.project.my.kurzurl.utility.MessageTranslatorUtil
 import com.project.my.kurzurl.utility.UrlIdentifierUtil
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import java.util.*
-import java.util.function.Supplier
 
 @Service
+@Cacheable(cacheNames = [UrlHazelcastConfiguration.urlCacheName])
 class ShortUrlServiceImpl(val urlRepository: UrlRepository) : ShortUrlService {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -22,10 +24,10 @@ class ShortUrlServiceImpl(val urlRepository: UrlRepository) : ShortUrlService {
         logger.info("creating new short url")
         val shortURL = UrlIdentifierUtil.identifierOf(dto.url)
         if (shortUrlExists(shortURL))
-            return shortURL;
+            return shortURL
 
         val url: Url = dto.toUrl(shortURL)
-        var save: Url = urlRepository!!.save(url)
+        val save: Url = urlRepository.save(url)
         logger.info("New short URL with id [{}] created successfully", save.id)
         return shortURL
     }
@@ -34,6 +36,7 @@ class ShortUrlServiceImpl(val urlRepository: UrlRepository) : ShortUrlService {
         return findUrl(shortURL).isPresent
     }
 
+    @Cacheable
     fun findUrl(shortUrl: String): Optional<Url> {
         return urlRepository.findByShortUrl(shortUrl)
     }
