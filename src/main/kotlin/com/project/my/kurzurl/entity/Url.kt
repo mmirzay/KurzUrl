@@ -3,15 +3,16 @@ package com.project.my.kurzurl.entity
 import javax.persistence.*
 
 @Entity
+@Table(uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("shortUrl"), name = "url_short_url_unique_index")])
 class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2048)
     val longUrl: String?
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 8)
     val shortUrl: String?
 
     private constructor(longUrl: String?, shortUrl: String?) {
