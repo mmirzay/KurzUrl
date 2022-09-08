@@ -1,11 +1,15 @@
 package com.project.my.kurzurl.out
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 class ActionResult<T> {
+    @JsonProperty("data")
     private var data: T? = null
+    @JsonProperty("success")
     private var success: Boolean? = null
+    @JsonProperty("message")
     private var message: String? = null
 
 
