@@ -2,6 +2,8 @@ package com.project.my.kurzurl.`in`
 
 import com.project.my.kurzurl.configuration.Constants
 import com.project.my.kurzurl.entity.Url
+import java.io.Serializable
+import javax.validation.constraints.NotEmpty
 import com.project.my.kurzurl.exception.InternalException
 import com.project.my.kurzurl.utility.MessageTranslatorUtil
 
@@ -9,6 +11,7 @@ class CreateShortUrlInDto(val url: String?) {
     init {
         validateUrl(url)
     }
+class CreateShortUrlInDto(@field:NotEmpty val url: String) : Serializable {
 
     fun toUrl(shortUrl: String): Url {
         return Url.Builder()

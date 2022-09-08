@@ -76,6 +76,13 @@
             <version>31.1-jre</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast-spring -->
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
+            <version>5.0.2</version>
+        </dependency>
+
 
     </dependencies>
 
