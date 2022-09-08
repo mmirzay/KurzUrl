@@ -23,10 +23,10 @@ class KortUrlController(val urlService: ShortUrlService) {
     }
 
     @GetMapping("/{shortUrl}")
-    fun createShortUrl(@PathVariable shortUrl: String?): ActionResult<String> {
+    fun createShortUrl(@PathVariable shortUrl: String): ActionResult<String> {
         return ActionResult.Builder<String>()
             .success(Boolean.TRUE)
-            .data("LongURL")
+            .data(urlService.getLongUrl(shortUrl))
             .message("LongURL is retrieved Successfully.")
             .build()
     }

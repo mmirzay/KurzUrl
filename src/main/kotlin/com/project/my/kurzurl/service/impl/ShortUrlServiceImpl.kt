@@ -4,10 +4,12 @@ import com.project.my.kurzurl.`in`.CreateShortUrlInDto
 import com.project.my.kurzurl.entity.Url
 import com.project.my.kurzurl.repository.UrlRepository
 import com.project.my.kurzurl.service.interfaces.ShortUrlService
+import com.project.my.kurzurl.utility.MessageTranslatorUtil
 import com.project.my.kurzurl.utility.UrlIdentifierUtil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.util.*
+import java.util.function.Supplier
 
 @Service
 class ShortUrlServiceImpl(val urlRepository: UrlRepository) : ShortUrlService {
@@ -18,7 +20,7 @@ class ShortUrlServiceImpl(val urlRepository: UrlRepository) : ShortUrlService {
     override fun createShortUrl(dto: CreateShortUrlInDto): String {
         logger.info("creating new short url")
         val shortURL = UrlIdentifierUtil.identifierOf(dto.url)
-        if(shortUrlExists(shortURL))
+        if (shortUrlExists(shortURL))
             return shortURL;
 
         val url: Url = dto.toUrl(shortURL)
@@ -35,7 +37,17 @@ class ShortUrlServiceImpl(val urlRepository: UrlRepository) : ShortUrlService {
         return urlRepository.findByShortUrl(shortUrl)
     }
 
-    override fun getLongUrl(shortUrl: String?): String? {
-        return "LongURL"
+    override fun getLongUrl(shortUrl: String): String {
+        logger.info("getting URL with short identifier [{}]", shortUrl)
+        val url: Url = findUrl(shortUrl)
+            .orElseThrow {
+                Exception(
+                    MessageTranslatorUtil.getText(
+                        "service.url.get.long.url.not.found"
+                    )
+                )
+            }
+        logger.info("URL with short identifier [{}] found successfully.", shortUrl)
+        return url.longUrl!!
     }
 }
